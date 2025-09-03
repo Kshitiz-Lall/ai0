@@ -5,11 +5,11 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# # Load environment variables
 load_dotenv()
 
-# Set up OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Set up OpenAI client for Ollama
+client = OpenAI(base_url='http://localhost:11434/v1/', api_key='ollama')
 
 # Setup soup with hardcoded link
 url = "https://www.genzeon.com"
@@ -53,6 +53,6 @@ messages = [
     {"role": "user", "content": user_prompt_for(webObject)}
 ]
 
-response = openai.chat.completions.create(model="gpt-4o-mini", messages=messages)
+response = client.chat.completions.create(model="llama3.2:latest", messages=messages)
 print(response.choices[0].message.content)
 
