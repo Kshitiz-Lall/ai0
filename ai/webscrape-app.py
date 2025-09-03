@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set up OpenAI client
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Setup soup with hardcoded link
 url = "https://www.genzeon.com"
@@ -53,6 +53,6 @@ messages = [
     {"role": "user", "content": user_prompt_for(webObject)}
 ]
 
-response = openai.chat.completions.create(model="gpt-4o-mini", messages=messages)
+response = client.chat.completions.create(model="gpt-4o-mini", messages=messages)
 print(response.choices[0].message.content)
 
